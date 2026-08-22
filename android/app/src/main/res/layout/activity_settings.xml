@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0E1220"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🤖 AI Klavye"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/setupHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1A2036"
+            android:padding="12dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#B9BED1"
+            android:textSize="14sp"
+            android:text="1. Aşağıdaki «Klavyeyi Etkinleştir» düğmesine bas ve AI Klavye'yi aç\n2. «Klavyeyi Seç» ile varsayılan yap\n3. API ayarlarını doldur → Kaydet" />
+
+        <Button
+            android:id="@+id/btnEnable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#7C5CFF"
+            android:text="⌨️ Klavyeyi Etkinleştir"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnMicPerm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#262B3D"
+            android:text="🎙️ Mikrofon İzni Ver"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="YAPAY ZEKA AYARLARI"
+            android:textColor="#7C5CFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spProvider"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="#1F2437" />
+
+        <EditText
+            android:id="@+id/etBaseUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="API Adresi (https://api.openai.com/v1)"
+            android:inputType="textUri"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#6B7290" />
+
+        <EditText
+            android:id="@+id/etApiKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="API Anahtarı"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#6B7290" />
+
+        <EditText
+            android:id="@+id/etModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Model (gpt-4o-mini)"
+            android:inputType="text"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#6B7290" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="SENİN PROFİLİN"
+            android:textColor="#7C5CFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Adın"
+            android:inputType="textPersonName"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#6B7290" />
+
+        <EditText
+            android:id="@+id/etPersona"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="top"
+            android:hint="Nasıl yazdığını anlat: kısa yazarım, espriliyim, bol emoji kullanırım..."
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#6B7290" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#7C5CFF"
+                android:text="💾 Kaydet"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnTest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#262B3D"
+                android:text="🔌 Test Et"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#9AA0B8"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#1A2036"
+            android:padding="12dp"
+            android:textColor="#8A90A5"
+            android:textSize="12sp"
+            android:text="💡 Ücretsiz anahtar: console.groq.com adresine girip ücretsiz API anahtarı alabilirsin. Sağlayıcı olarak Groq seç, model: llama-3.3-70b-versatile\n\n🔒 Anahtarın sadece cihazında saklanır." />
+    </LinearLayout>
+</ScrollView>
