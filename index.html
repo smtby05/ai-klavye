@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d14">
+<title>AI Klavye</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <span class="logo-badge">AI</span>
+    <span class="logo-text">Klavye</span>
+  </div>
+  <button id="installBtn" class="btn ghost small hidden">Yükle</button>
+</header>
+
+<main id="app">
+
+  <section class="tab-page active" data-tab="cevap">
+
+    <div class="person-row" id="personRow"></div>
+
+    <div class="card">
+      <label class="field-label">Son mesajları buraya yapıştır</label>
+      <textarea id="historyInput" rows="6"
+        placeholder="Örnek:&#10;Elif: bugün ne yapıyorsun&#10;Ben: hiç işte evdeyim&#10;Elif: akşam buluşalım mı :)"></textarea>
+      <div class="row gap">
+        <button id="genBtn" class="btn primary grow">✨ Öneri Üret</button>
+        <button id="whatNextBtn" class="btn ghost">Ne yazmalıyım?</button>
+      </div>
+      <div id="genStatus" class="status hidden"></div>
+    </div>
+
+    <div class="card hidden" id="analysisCard">
+      <div class="analysis-title">🔍 AI Analizi</div>
+      <p id="analysisText"></p>
+    </div>
+
+    <div id="suggestions"></div>
+  </section>
+
+  <section class="tab-page" data-tab="yaz">
+
+    <div class="card">
+      <label class="field-label">Metnin</label>
+      <textarea id="composeInput" rows="5" placeholder="Yaz veya yapıştır..."></textarea>
+
+      <div class="chips" id="toneChips">
+        <span class="chip-label">Üslup:</span>
+        <button class="chip" data-tone="sevgi dolu, tatlı ve romantik">💗 Romantik</button>
+        <button class="chip" data-tone="esprili ve komik">😄 Komik</button>
+        <button class="chip" data-tone="resmi ve profesyonel">💼 Resmi</button>
+        <button class="chip" data-tone="çok kısa ve öz">⚡ Kısa</button>
+      </div>
+
+      <div class="row gap wrap">
+        <button id="fixBtn" class="btn primary">🛠 Düzelt</button>
+        <select id="langSelect" class="select">
+          <option value="İngilizce">İngilizce</option>
+          <option value="Almanca">Almanca</option>
+          <option value="Türkçe">Türkçe</option>
+          <option value="Fransızca">Fransızca</option>
+          <option value="İspanyolca">İspanyolca</option>
+          <option value="Arapça">Arapça</option>
+          <option value="Rusça">Rusça</option>
+          <option value="İtalyanca">İtalyanca</option>
+        </select>
+        <button id="translateBtn" class="btn">🌐 Çevir</button>
+      </div>
+      <div id="composeStatus" class="status hidden"></div>
+    </div>
+
+    <div class="card hidden" id="outputCard">
+      <div class="row between">
+        <label class="field-label">Sonuç</label>
+        <button id="copyOutputBtn" class="btn ghost small">📋 Kopyala</button>
+      </div>
+      <div id="composeOutput" class="output-box"></div>
+      <div class="row gap mt">
+        <button id="editInComposeBtn" class="btn ghost small">✏️ Düzenle</button>
+        <button id="sendWhatsBtn" class="btn ghost small">💬 WhatsApp'a gönder</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-page" data-tab="ses">
+
+    <div class="card voice-card">
+      <button id="micBtn" class="mic-btn" aria-label="Kaydet">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
+          <path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/>
+        </svg>
+      </button>
+      <div id="voiceHint" class="hint">Konuşmak için dokun</div>
+      <div id="voiceStatus" class="status hidden"></div>
+    </div>
+
+    <div class="card hidden" id="rawCard">
+      <label class="field-label">Ham döküm</label>
+      <div id="rawText" class="output-box muted"></div>
+    </div>
+
+    <div class="card hidden" id="cleanCard">
+      <div class="row between">
+        <label class="field-label">Düzenlenmiş mesaj</label>
+        <button id="copyCleanBtn" class="btn ghost small">📋 Kopyala</button>
+      </div>
+      <div id="cleanText" class="output-box"></div>
+    </div>
+  </section>
+
+  <section class="tab-page" data-tab="ayarlar">
+
+    <div class="card">
+      <label class="field-label">Sağlayıcı</label>
+      <select id="presetSelect" class="select full">
+        <option value="openai">OpenAI</option>
+        <option value="groq">Groq (ücretsiz kota)</option>
+        <option value="openrouter">OpenRouter (çok model)</option>
+        <option value="custom">Özel / Ollama</option>
+      </select>
+
+      <label class="field-label mt">API Adresi</label>
+      <input id="apiBaseInput" type="url" placeholder="https://api.openai.com/v1">
+
+      <label class="field-label mt">API Anahtarı</label>
+      <input id="apiKeyInput" type="password" placeholder="sk-..." autocomplete="off">
+
+      <label class="field-label mt">Model</label>
+      <input id="modelInput" type="text" placeholder="gpt-4o-mini" list="modelList">
+      <datalist id="modelList">
+        <option value="gpt-4o-mini"><option value="llama-3.3-70b-versatile">
+        <option value="deepseek-chat"><option value="gemini-2.0-flash">
+      </datalist>
+
+      <div class="row gap mt">
+        <button id="testBtn" class="btn ghost grow">🔌 Bağlantıyı Test Et</button>
+        <button id="saveSettingsBtn" class="btn primary grow">💾 Kaydet</button>
+      </div>
+      <div id="testStatus" class="status hidden"></div>
+    </div>
+
+    <div class="card">
+      <label class="field-label">Sen kimsin? (AI senin adına böyle yazar)</label>
+      <input id="userNameInput" type="text" placeholder="Adın">
+      <textarea id="personaInput" class="mt" rows="4"
+        placeholder="Nasıl yazdığını anlat: kısa yazarım, bol emoji kullanırım, espriliyim..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="row between">
+        <span>Kayıtlı kişiler: <b id="personCount">0</b></span>
+        <button id="clearDataBtn" class="btn danger small">Verileri Sil</button>
+      </div>
+      <p class="hint mt">Anahtarın sadece bu cihazda saklanır.</p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="tab-btn active" data-target="cevap">
+    <span>💬</span>Cevaplar
+  </button>
+  <button class="tab-btn" data-target="yaz">
+    <span>⌨️</span>Yaz
+  </button>
+  <button class="tab-btn" data-target="ses">
+    <span>🎙️</span>Sesli
+  </button>
+  <button class="tab-btn" data-target="ayarlar">
+    <span>⚙️</span>Ayarlar
+  </button>
+</nav>
+
+<div id="resultOverlay" class="overlay hidden">
+  <div class="overlay-card">
+    <div class="overlay-tag" id="resultTag">SONUÇ</div>
+    <div id="resultBefore" class="output-box muted hidden"></div>
+    <div id="resultAfter" class="output-box big"></div>
+    <div class="row gap">
+      <button id="resultCopyBtn" class="btn primary grow">📋 Kopyala</button>
+      <button id="resultCloseBtn" class="btn ghost">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
